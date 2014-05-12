@@ -1,0 +1,16 @@
+[
+{
+  "modid": "AgeCraftTeam-ModJam4",
+  "name": "AgeCraftTeam-ModJam4",
+  "description": "Mod for ModJam4 made by AgeCraft Team",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/AgeCraft/ModJam4",
+  "updateUrl": "",
+  "authorList": ["ElConquistador", "RoryGee", "DJPrinceCap", "Meadowcottage"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
