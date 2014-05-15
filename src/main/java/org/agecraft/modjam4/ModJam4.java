@@ -22,6 +22,7 @@ import org.agecraft.modjam4.items.ItemRod;
 import org.agecraft.modjam4.items.ItemScrewdriver;
 import org.agecraft.modjam4.items.ItemShovel;
 import org.agecraft.modjam4.items.ItemSword;
+import org.agecraft.modjam4.tileentities.TileEntityExtended;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -37,15 +38,15 @@ public class ModJam4 {
 
 	@Instance(MJReference.MOD_ID)
 	public static ModJam4 instance;
-	
+
 	@SidedProxy(clientSide = MJReference.CLIENT_PROXY_CLASS, serverSide = MJReference.SERVER_PROXY_CLASS)
 	public static MJCommonProxy proxy;
-	
+
 	public static MJCreativeTab creativeTab;
-	
+
 	public static Block ore;
 	public static Block block;
-	
+
 	public static Item ingot;
 	public static Item rod;
 	public static Item swordCopper;
@@ -59,30 +60,30 @@ public class ModJam4 {
 	public static Item bootsCopper;
 	public static Item screwdriver;
 	public static Item battery;
-	
+
 	public static ToolMaterial toolMaterialCopper;
 	public static ArmorMaterial armorMaterialCopper;
-	
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		//init creative tab
+		// init creative tab
 		creativeTab = new MJCreativeTab("ModJam4");
-		
-		//register tool material
+
+		// register tool material
 		toolMaterialCopper = EnumHelper.addToolMaterial("COPPER", 1, 181, 4.0F, 1.0F, 7);
-		
-		//register armor material
+
+		// register armor material
 		armorMaterialCopper = EnumHelper.addArmorMaterial("COPPER", 8, new int[]{2, 4, 3, 1}, 7);
-		
-		//init blocks
+
+		// init blocks
 		ore = new BlockOre().setBlockName("MJ_ore");
 		block = new BlockBlock().setBlockName("MJ_block");
-		
-		//register blocks
+
+		// register blocks
 		GameRegistry.registerBlock(ore, ItemBlockMetadata.class, "MJ_ore");
 		GameRegistry.registerBlock(block, ItemBlockMetadata.class, "MJ_block");
-		
-		//init items
+
+		// init items
 		ingot = new ItemIngot().setUnlocalizedName("MJ_ingot");
 		rod = new ItemRod().setUnlocalizedName("MJ_rod");
 		swordCopper = new ItemSword(toolMaterialCopper).setUnlocalizedName("MJ_swordCopper").setTextureName("modjam4:swordCopper");
@@ -95,8 +96,8 @@ public class ModJam4 {
 		leggingsCopper = new ItemArmor(armorMaterialCopper, 0, 2).setUnlocalizedName("MJ_leggingsCopper").setTextureName("modjam4:leggingsCopper");
 		bootsCopper = new ItemArmor(armorMaterialCopper, 0, 3).setUnlocalizedName("MJ_bootsCopper").setTextureName("modjam4:bootsCopper");
 		screwdriver = new ItemScrewdriver().setUnlocalizedName("MJ_screwdriver");
-		
-		//register items
+
+		// register items
 		GameRegistry.registerItem(ingot, "MJ_ingot");
 		GameRegistry.registerItem(rod, "MJ_rod");
 		GameRegistry.registerItem(swordCopper, "MJ_swordCopper");
@@ -110,26 +111,39 @@ public class ModJam4 {
 		GameRegistry.registerItem(bootsCopper, "MJ_bootsCopper");
 		GameRegistry.registerItem(screwdriver, "MJ_screwdriver");
 		
-		//set crafting materials
+		//register tile entities
+		GameRegistry.registerTileEntity(TileEntityExtended.class, "MJ_TileExteneded");
+
+		// set crafting materials
 		toolMaterialCopper.customCraftingMaterial = ingot;
 		armorMaterialCopper.customCraftingMaterial = ingot;
 	}
-	
+
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		// register recipes
 		for(int i = 0; i < MJResources.metals.length; i++) {
 			FurnaceRecipes.smelting().func_151394_a(new ItemStack(ore, 1, i), new ItemStack(ingot, 1, i), 0.7F);
 			CraftingManager.getInstance().addRecipe(new ItemStack(block, 1, i), "XXX", "XXX", "XXX", 'X', new ItemStack(ingot, 1, i));
 		}
+		CraftingManager.getInstance().addRecipe(new ItemStack(rod, 4, 0), "X", "X", 'X', new ItemStack(ingot, 1, 0));
+		CraftingManager.getInstance().addRecipe(new ItemStack(rod, 4, 1), "X", "X", 'X', new ItemStack(Items.iron_ingot));
+
 		CraftingManager.getInstance().addRecipe(new ItemStack(screwdriver), " X", "IY", 'X', new ItemStack(rod, 1, 1), 'I', new ItemStack(Items.stick), 'Y', new ItemStack(Items.dye, 1, 11));
 		CraftingManager.getInstance().addRecipe(new ItemStack(screwdriver), "YX", "I ", 'X', new ItemStack(rod, 1, 1), 'I', new ItemStack(Items.stick), 'Y', new ItemStack(Items.dye, 1, 11));
-		
-		//register rendering information
+
+		String[][] recipePatterns = new String[][]{{"XXX", "X X"}, {"X X", "XXX", "XXX"}, {"XXX", "X X", "X X"}, {"X X", "X X"}, {"X", "X", "#"}, {"XXX", " # ", " # "}, {"XX", "X#", "#"}, {"X", "#", " #"}, {"XX", " #", " #"}};
+		Item[] recipeOutputs = new Item[]{helmetCopper, chestplateCopper, leggingsCopper, bootsCopper, swordCopper, pickaxeCopper, axeCopper, shovelCopper, hoeCopper};
+		for(int i = 0; i < recipePatterns.length; ++i) {
+			CraftingManager.getInstance().addRecipe(new ItemStack(recipeOutputs[i]), new Object[]{recipePatterns[i], 'X', new ItemStack(ingot, 1, 0), '#', new ItemStack(Items.stick)});
+		}
+
+		// register rendering information
 		proxy.registerRenderingInformation();
 	}
-	
+
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		
+
 	}
 }
