@@ -1,6 +1,8 @@
 itemGroup.ModJam4=ModJam4
 
 metals.copper=Copper
+metals.gold=Gold
+metals.iron=Iron
 metals.nickel=Nickel
 metals.zinc=Zinc
 
@@ -8,6 +10,7 @@ tile.MJ_ore.name=%s Ore
 tile.MJ_block.name=%s Block
 
 item.MJ_ingot.name=%s Ingot
+item.MJ_rod.name=%s Rod
 item.MJ_swordCopper.name=Copper Sword
 item.MJ_pickaxeCopper.name=Copper Pickaxe
 item.MJ_axeCopper.name=Copper Axe

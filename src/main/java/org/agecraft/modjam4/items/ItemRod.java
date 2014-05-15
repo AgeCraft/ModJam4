@@ -15,9 +15,9 @@ import org.agecraft.modjam4.ModJam4;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemIngot extends Item {
-		
-	public ItemIngot() {
+public class ItemRod extends Item {
+	
+	public ItemRod() {
 		setMaxDamage(0);
 		setHasSubtypes(true);
 		setCreativeTab(ModJam4.creativeTab);
@@ -25,30 +25,29 @@ public class ItemIngot extends Item {
 	
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		return StatCollector.translateToLocalFormatted(getUnlocalizedName(), StatCollector.translateToLocal("metals." + MJResources.metals[stack.getItemDamage()]));
+		return StatCollector.translateToLocalFormatted(getUnlocalizedName(), StatCollector.translateToLocal("metal." + MJResources.rodTypes[stack.getItemDamage()]));
 	}
 	
 	@Override
 	public String getUnlocalizedName() {
-		return "item.MJ_ingot.name";
+		return "item.MJ_rod.name";
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int meta) {
-		return MJResources.ingots[meta];
+		return MJResources.rods[meta];
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconRegister) {
-		MJResources.registerItemIcons(iconRegister);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item item, CreativeTabs creativeTabg, List list) {
-		for(int i = 0; i < MJResources.metals.length; i++) {
+	public void getSubItems(Item item, CreativeTabs creativeTab, List list) {
+		for(int i = 0; i < MJResources.rodTypes.length; i++) {
 			list.add(new ItemStack(item, 1, i));
 		}
 	}

@@ -14,6 +14,8 @@ import org.agecraft.modjam4.items.ItemBlockMetadata;
 import org.agecraft.modjam4.items.ItemHoe;
 import org.agecraft.modjam4.items.ItemIngot;
 import org.agecraft.modjam4.items.ItemPickaxe;
+import org.agecraft.modjam4.items.ItemRod;
+import org.agecraft.modjam4.items.ItemScrewdriver;
 import org.agecraft.modjam4.items.ItemShovel;
 import org.agecraft.modjam4.items.ItemSword;
 
@@ -41,6 +43,7 @@ public class ModJam4 {
 	public static Block block;
 	
 	public static Item ingot;
+	public static Item rod;
 	public static Item swordCopper;
 	public static Item pickaxeCopper;
 	public static Item axeCopper;
@@ -50,7 +53,9 @@ public class ModJam4 {
 	public static Item chestplateCopper;
 	public static Item leggingsCopper;
 	public static Item bootsCopper;
-
+	public static Item screwdriver;
+	public static Item battery;
+	
 	public static ToolMaterial toolMaterialCopper;
 	public static ArmorMaterial armorMaterialCopper;
 	
@@ -75,6 +80,7 @@ public class ModJam4 {
 		
 		//init items
 		ingot = new ItemIngot().setUnlocalizedName("MJ_ingot");
+		rod = new ItemRod().setUnlocalizedName("MJ_rod");
 		swordCopper = new ItemSword(toolMaterialCopper).setUnlocalizedName("MJ_swordCopper").setTextureName("modjam4:swordCopper");
 		pickaxeCopper = new ItemPickaxe(toolMaterialCopper).setUnlocalizedName("MJ_pickaxeCopper").setTextureName("modjam4:pickaxeCopper");
 		axeCopper = new ItemAxe(toolMaterialCopper).setUnlocalizedName("MJ_axeCopper").setTextureName("modjam4:axeCopper");
@@ -84,9 +90,11 @@ public class ModJam4 {
 		chestplateCopper = new ItemArmor(armorMaterialCopper, 0, 1).setUnlocalizedName("MJ_chestplateCopper").setTextureName("modjam4:chestplateCopper");
 		leggingsCopper = new ItemArmor(armorMaterialCopper, 0, 2).setUnlocalizedName("MJ_leggingsCopper").setTextureName("modjam4:leggingsCopper");
 		bootsCopper = new ItemArmor(armorMaterialCopper, 0, 3).setUnlocalizedName("MJ_bootsCopper").setTextureName("modjam4:bootsCopper");
+		screwdriver = new ItemScrewdriver().setUnlocalizedName("MJ_screwdriver");
 		
 		//register items
 		GameRegistry.registerItem(ingot, "MJ_ingot");
+		GameRegistry.registerItem(rod, "MJ_rod");
 		GameRegistry.registerItem(swordCopper, "MJ_swordCopper");
 		GameRegistry.registerItem(pickaxeCopper, "MJ_pickaxeCopper");
 		GameRegistry.registerItem(axeCopper, "MJ_axeCopper");
@@ -96,6 +104,7 @@ public class ModJam4 {
 		GameRegistry.registerItem(chestplateCopper, "MJ_chetsplateCopper");
 		GameRegistry.registerItem(leggingsCopper, "MJ_leggingsCopper");
 		GameRegistry.registerItem(bootsCopper, "MJ_bootsCopper");
+		GameRegistry.registerItem(screwdriver, "MJ_screwdriver");
 		
 		//set crafting materials
 		toolMaterialCopper.customCraftingMaterial = ingot;
