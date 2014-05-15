@@ -25,7 +25,7 @@ public class ItemRod extends Item {
 	
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		return StatCollector.translateToLocalFormatted(getUnlocalizedName(), StatCollector.translateToLocal("metal." + MJResources.rodTypes[stack.getItemDamage()]));
+		return StatCollector.translateToLocalFormatted(getUnlocalizedName(), StatCollector.translateToLocal("metals." + MJResources.rodTypes[stack.getItemDamage()]));
 	}
 	
 	@Override

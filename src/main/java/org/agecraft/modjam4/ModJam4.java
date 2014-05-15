@@ -1,9 +1,13 @@
 package org.agecraft.modjam4;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.common.util.EnumHelper;
 
 import org.agecraft.modjam4.blocks.BlockBlock;
@@ -113,6 +117,14 @@ public class ModJam4 {
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		for(int i = 0; i < MJResources.metals.length; i++) {
+			FurnaceRecipes.smelting().func_151394_a(new ItemStack(ore, 1, i), new ItemStack(ingot, 1, i), 0.7F);
+			CraftingManager.getInstance().addRecipe(new ItemStack(block, 1, i), "XXX", "XXX", "XXX", 'X', new ItemStack(ingot, 1, i));
+		}
+		CraftingManager.getInstance().addRecipe(new ItemStack(screwdriver), " X", "IY", 'X', new ItemStack(rod, 1, 1), 'I', new ItemStack(Items.stick), 'Y', new ItemStack(Items.dye, 1, 11));
+		CraftingManager.getInstance().addRecipe(new ItemStack(screwdriver), "YX", "I ", 'X', new ItemStack(rod, 1, 1), 'I', new ItemStack(Items.stick), 'Y', new ItemStack(Items.dye, 1, 11));
+		
+		//register rendering information
 		proxy.registerRenderingInformation();
 	}
 	

@@ -1,10 +1,12 @@
 package org.agecraft.modjam4.items;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
 
 import org.agecraft.modjam4.MJResources;
 import org.agecraft.modjam4.ModJam4;
@@ -29,6 +31,11 @@ public class ItemScrewdriver extends Item {
 	@Override
 	public String getUnlocalizedName() {
 		return "item.MJ_screwdriver.name";
+	}
+	
+	@Override
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+		return true;
 	}
 	
 	@Override
