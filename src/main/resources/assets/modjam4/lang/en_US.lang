@@ -1,0 +1,9 @@
+itemGroup.ModJam4=ModJam4
+
+metals.copper=Copper
+metals.nickel=Nickel
+metals.zinc=Zinc
+
+metals.ore=%s Ore
+metals.block=%s Block
+metals.ingot=%s Ingot
