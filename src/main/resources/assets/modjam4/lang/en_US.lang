@@ -7,3 +7,8 @@ metals.zinc=Zinc
 metals.ore=%s Ore
 metals.block=%s Block
 metals.ingot=%s Ingot
+
+item.MJ_helmetCopper.name=Copper Helmet
+item.MJ_chestplateCopper.name=Copper Chestplate
+item.MJ_leggingsCopper.name=Copper Leggings
+item.MJ_bootsCopper.name=Copper Boots
