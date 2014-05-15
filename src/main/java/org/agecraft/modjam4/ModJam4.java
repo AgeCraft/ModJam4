@@ -12,17 +12,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 @Mod(modid = MJReference.MOD_ID, name = MJReference.NAME, version = MJReference.VERSION, acceptedMinecraftVersions = MJReference.MC_VERSION, dependencies = MJReference.DEPENDENCIES)
 public class ModJam4 {
 
-    //Items
-    public static ItemCopperIngot CopperIngot;
-    public static ItemNickelIngot NickelIngot;
-    public static ItemZincIngot ZincIngot;
-
-    //Blocks
-
-
-    //Tools
-
-
 	@Instance(MJReference.MOD_ID)
 	public static ModJam4 instance;
 	
@@ -31,13 +20,6 @@ public class ModJam4 {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-        //Items
-        CopperIngot = new ItemCopperIngot();
-            GameRegistry.registerItem(CopperIngot, "CopperIngot");
-        NickelIngot = new ItemNickelIngot();
-            GameRegistry.registerItem(NickelIngot, "NickelIngot");
-        ZincIngot = new ItemZincIngot();
-            GameRegistry.registerItem(ZincIngot, "ZincIngot");
 
 	}
 	
