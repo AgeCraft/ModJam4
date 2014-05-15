@@ -7,10 +7,11 @@ import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
 
 public class ElectricalNetwork {
-
-	public static HashMap<Vector3f, List<Vector3f>> nodes = new HashMap<Vector3f, List<Vector3f>>();
+	
+	public HashMap<Vector3f, List<Vector3f>> nodes = new HashMap<Vector3f, List<Vector3f>>();
 
 	public ElectricalNetwork() {
+		
 	}
 
 	public void addNode(Vector3f node) {
@@ -69,5 +70,17 @@ public class ElectricalNetwork {
 			}
 			return list;
 		}
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for(Vector3f node : nodes.keySet()) {
+			sb.append(node.toString());
+			sb.append(": ");
+			sb.append(nodes.get(node).toString());
+			sb.append(",\n");
+		}
+		return sb.substring(0, sb.length() - 2);
 	}
 }
