@@ -3,15 +3,19 @@ package org.agecraft.modjam4;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.common.util.EnumHelper;
 
 import org.agecraft.modjam4.blocks.BlockBlock;
 import org.agecraft.modjam4.blocks.BlockOre;
+import org.agecraft.modjam4.items.ItemArmor;
+import org.agecraft.modjam4.items.ItemAxe;
 import org.agecraft.modjam4.items.ItemBlockMetadata;
+import org.agecraft.modjam4.items.ItemHoe;
 import org.agecraft.modjam4.items.ItemIngot;
+import org.agecraft.modjam4.items.ItemPickaxe;
+import org.agecraft.modjam4.items.ItemShovel;
+import org.agecraft.modjam4.items.ItemSword;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -37,6 +41,11 @@ public class ModJam4 {
 	public static Block block;
 	
 	public static Item ingot;
+	public static Item swordCopper;
+	public static Item pickaxeCopper;
+	public static Item axeCopper;
+	public static Item shovelCopper;
+	public static Item hoeCopper;
 	public static Item helmetCopper;
 	public static Item chestplateCopper;
 	public static Item leggingsCopper;
@@ -66,13 +75,23 @@ public class ModJam4 {
 		
 		//init items
 		ingot = new ItemIngot().setUnlocalizedName("MJ_ingot");
-		helmetCopper = new ItemArmor(armorMaterialCopper, 5, 0).setUnlocalizedName("MJ_helmetCopper").setTextureName("modjam4:helmetCopper");
-		chestplateCopper = new ItemArmor(armorMaterialCopper, 5, 1).setUnlocalizedName("MJ_chestplateCopper").setTextureName("modjam4:chestplateCopper");
-		leggingsCopper = new ItemArmor(armorMaterialCopper, 5, 2).setUnlocalizedName("MJ_leggingsCopper").setTextureName("modjam4:leggingsCopper");
-		bootsCopper = new ItemArmor(armorMaterialCopper, 5, 3).setUnlocalizedName("MJ_bootsCopper").setTextureName("modjam4:bootsCopper");
+		swordCopper = new ItemSword(toolMaterialCopper).setUnlocalizedName("MJ_swordCopper").setTextureName("modjam4:swordCopper");
+		pickaxeCopper = new ItemPickaxe(toolMaterialCopper).setUnlocalizedName("MJ_pickaxeCopper").setTextureName("modjam4:pickaxeCopper");
+		axeCopper = new ItemAxe(toolMaterialCopper).setUnlocalizedName("MJ_axeCopper").setTextureName("modjam4:axeCopper");
+		shovelCopper = new ItemShovel(toolMaterialCopper).setUnlocalizedName("MJ_shovelCopper").setTextureName("modjam4:shovelCopper");
+		hoeCopper = new ItemHoe(toolMaterialCopper).setUnlocalizedName("MJ_hoeCopper").setTextureName("modjam4:hoeCopper");
+		helmetCopper = new ItemArmor(armorMaterialCopper, 0, 0).setUnlocalizedName("MJ_helmetCopper").setTextureName("modjam4:helmetCopper");
+		chestplateCopper = new ItemArmor(armorMaterialCopper, 0, 1).setUnlocalizedName("MJ_chestplateCopper").setTextureName("modjam4:chestplateCopper");
+		leggingsCopper = new ItemArmor(armorMaterialCopper, 0, 2).setUnlocalizedName("MJ_leggingsCopper").setTextureName("modjam4:leggingsCopper");
+		bootsCopper = new ItemArmor(armorMaterialCopper, 0, 3).setUnlocalizedName("MJ_bootsCopper").setTextureName("modjam4:bootsCopper");
 		
 		//register items
 		GameRegistry.registerItem(ingot, "MJ_ingot");
+		GameRegistry.registerItem(swordCopper, "MJ_swordCopper");
+		GameRegistry.registerItem(pickaxeCopper, "MJ_pickaxeCopper");
+		GameRegistry.registerItem(axeCopper, "MJ_axeCopper");
+		GameRegistry.registerItem(shovelCopper, "MJ_shovelCopper");
+		GameRegistry.registerItem(hoeCopper, "MJ_hoeCopper");
 		GameRegistry.registerItem(helmetCopper, "MJ_helmetCopper");
 		GameRegistry.registerItem(chestplateCopper, "MJ_chetsplateCopper");
 		GameRegistry.registerItem(leggingsCopper, "MJ_leggingsCopper");

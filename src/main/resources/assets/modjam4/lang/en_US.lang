@@ -4,10 +4,15 @@ metals.copper=Copper
 metals.nickel=Nickel
 metals.zinc=Zinc
 
-metals.ore=%s Ore
-metals.block=%s Block
-metals.ingot=%s Ingot
+tile.MJ_ore.name=%s Ore
+tile.MJ_block.name=%s Block
 
+item.MJ_ingot.name=%s Ingot
+item.MJ_swordCopper.name=Copper Sword
+item.MJ_pickaxeCopper.name=Copper Pickaxe
+item.MJ_axeCopper.name=Copper Axe
+item.MJ_shovelCopper.name=Copper Shovel
+item.MJ_hoeCopper.name=Copper Hoe
 item.MJ_helmetCopper.name=Copper Helmet
 item.MJ_chestplateCopper.name=Copper Chestplate
 item.MJ_leggingsCopper.name=Copper Leggings

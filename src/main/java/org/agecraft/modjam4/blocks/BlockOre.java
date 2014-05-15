@@ -38,7 +38,7 @@ public class BlockOre extends BlockMetadata {
 	
 	@Override
 	public String getUnlocalizedName() {
-		return "metals.ore";
+		return "tile.MJ_ore.name";
 	}
 
 	@Override

@@ -35,12 +35,12 @@ public class BlockBlock extends BlockMetadata {
 	public String getLocalizedName(ItemStack stack) {
 		return StatCollector.translateToLocalFormatted(getUnlocalizedName(), StatCollector.translateToLocal("metals." + MJResources.metals[stack.getItemDamage()]));
 	}
-	
+
 	@Override
 	public String getUnlocalizedName() {
-		return "metals.block";
+		return "tile.MJ_block.name";
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
