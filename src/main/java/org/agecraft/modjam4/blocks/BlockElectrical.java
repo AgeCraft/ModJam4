@@ -40,7 +40,10 @@ public class BlockElectrical extends BlockExtendedContainer {
 		TileEntityElectrical tile = (TileEntityElectrical) getTileEntity(world, x, y, z);
 		if(tile != null && tile.getNetwork() != null) {
 			tile.getNetwork().removeNode(tile.getPosition());
-			if(tile.getNetwork().size() <= 0) {
+			if(tile.getNetwork().size() > 0) {
+				tile.updateNetwork();
+			}
+			if(tile.getNetwork() != null && tile.getNetwork().size() <= 0) {
 				tile.setNetwork(null);
 			}
 		}

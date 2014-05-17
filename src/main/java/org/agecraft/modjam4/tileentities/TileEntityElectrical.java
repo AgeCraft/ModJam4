@@ -1,11 +1,13 @@
 package org.agecraft.modjam4.tileentities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
 
 import org.agecraft.modjam4.network.ElectricalNetwork;
 import org.agecraft.modjam4.network.ElectricalNetworkRegistry;
+import org.agecraft.modjam4.util.Tuple;
 import org.lwjgl.util.vector.Vector3f;
 
 public class TileEntityElectrical extends TileEntityExtended {
@@ -22,7 +24,9 @@ public class TileEntityElectrical extends TileEntityExtended {
 	}
 	
 	public void setNetwork(ElectricalNetwork network) {
-		ElectricalNetworkRegistry.networks.remove(this.network.id);
+		if(this.network != null) {
+			ElectricalNetworkRegistry.networks.remove(this.network.id);
+		}
 		this.network = network;
 	}
 	
@@ -35,7 +39,7 @@ public class TileEntityElectrical extends TileEntityExtended {
 	}
 	
 	public void mergeNetworks(TileEntityElectrical tile) {
-		if(network.id == tile.getNetwork().id) {
+		if(network.id != tile.getNetwork().id) {
 			ElectricalNetwork otherNetwork = tile.getNetwork();
 			for(Vector3f node : otherNetwork) {
 				network.addNode(node);
@@ -46,6 +50,72 @@ public class TileEntityElectrical extends TileEntityExtended {
 			}
 			tile.setNetwork(network);
 			otherNetwork = null;
+		}
+	}
+	
+	public void updateNetwork() {
+		ArrayList<Tuple<Vector3f, Vector3f>> edges = new ArrayList<Tuple<Vector3f, Vector3f>>();
+		edges.addAll(network.edges);
+		ArrayList<ElectricalNetwork> trees = new ArrayList<ElectricalNetwork>();
+		for(Vector3f node : network) {
+			ElectricalNetwork tree = new ElectricalNetwork();
+			tree.addNode(node);
+			trees.add(tree);
+		}
+		while(edges.size() > 0) {
+			Tuple<Vector3f, Vector3f> edge = edges.get(0);
+			System.out.println("CHECKING EDGE: " + edge);
+			int from = -1;
+			int to = -1;
+			for(int i = 0; i < trees.size(); i++) {
+				if(trees.get(i) != null) {
+					if(from == -1 && trees.get(i).containsNode(edge.value1)) {
+						from = i;
+					}
+					if(to == -1 && trees.get(i).containsNode(edge.value2)) {
+						to = i;
+					}
+					if(from != -1 && to != -1) {
+						break;
+					}
+				}
+			}
+			System.out.println("from: " + from + " to: " + to);
+			if(from != -1 && to != -1 && from != to) {
+				ElectricalNetwork treeFrom = trees.get(from);
+				ElectricalNetwork treeTo = trees.get(to);
+				for(Vector3f node : treeTo) {
+					treeFrom.addNode(node);
+				}
+				for(Tuple<Vector3f, Vector3f> e : treeTo.edges) {
+					treeFrom.addEdge(e.value1, e.value2);
+				}
+				treeFrom.addEdge(edge.value1, edge.value2);
+				trees.remove(to);
+			}
+			edges.remove(0);
+		}
+		ArrayList<ElectricalNetwork> networks = new ArrayList<ElectricalNetwork>();
+		for(ElectricalNetwork tree : trees) {
+			ElectricalNetwork net = new ElectricalNetwork();
+			for(Vector3f node : tree) {
+				net.addNode(node);
+				List<Vector3f> list = network.nodes.get(node);
+				for(Vector3f n : list) {
+					if(tree.containsNode(n)) {
+						net.addEdge(node, n);
+					}
+				}
+			}
+			ElectricalNetworkRegistry.registerNetwork(net);
+			networks.add(net);
+		}
+		trees = null;
+		setNetwork(null);
+		for(ElectricalNetwork net : networks) {
+			for(Vector3f node : net) {
+				((TileEntityElectrical) worldObj.getTileEntity((int) node.x, (int) node.y, (int) node.z)).setNetwork(net);
+			}
 		}
 	}
 	

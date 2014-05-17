@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.agecraft.modjam4.util.Tuple;
 import org.lwjgl.util.vector.Vector3f;
 
 public class ElectricalNetwork implements Serializable, Iterable<Vector3f> {
@@ -14,6 +15,7 @@ public class ElectricalNetwork implements Serializable, Iterable<Vector3f> {
 	
 	public long id;
 	public HashMap<Vector3f, List<Vector3f>> nodes = new HashMap<Vector3f, List<Vector3f>>();
+	public ArrayList<Tuple<Vector3f, Vector3f>> edges = new ArrayList<Tuple<Vector3f, Vector3f>>();
 	
 	public void addNode(Vector3f node) {
 		if(!nodes.containsKey(node)) {
@@ -23,12 +25,25 @@ public class ElectricalNetwork implements Serializable, Iterable<Vector3f> {
 
 	public void removeNode(Vector3f node) {
 		nodes.remove(node);
+		ArrayList<Tuple<Vector3f, Vector3f>> removeEdges = new ArrayList<Tuple<Vector3f,Vector3f>>();
+		for(Tuple<Vector3f, Vector3f> edge : edges) {
+			if(edge.value1 == node || edge.value2 == node) {
+				removeEdges.add(edge);
+			}
+		}
+		edges.removeAll(removeEdges);
+	}
+	
+	public boolean containsNode(Vector3f node) {
+		return nodes.containsKey(node);
 	}
 
 	public void addEdge(Vector3f from, Vector3f to) {
 		if(nodes.containsKey(from) && nodes.containsKey(to)) {
 			nodes.get(from).add(to);
 			nodes.get(to).add(from);
+			edges.add(new Tuple<Vector3f, Vector3f>(from, to));
+			edges.add(new Tuple<Vector3f, Vector3f>(to, from));
 		}
 	}
 	
@@ -39,6 +54,13 @@ public class ElectricalNetwork implements Serializable, Iterable<Vector3f> {
 		if(nodes.containsKey(to)) {
 			nodes.get(to).remove(from);
 		}
+		ArrayList<Tuple<Vector3f, Vector3f>> removeEdges = new ArrayList<Tuple<Vector3f, Vector3f>>();
+		for(Tuple<Vector3f, Vector3f> edge : edges) {
+			if((edge.value1 == from && edge.value2 == to) || (edge.value1 == to && edge.value2 == from)) {
+				removeEdges.add(edge);
+			}
+		}
+		edges.removeAll(removeEdges);
 	}
 	
 	public boolean hasEdge(Vector3f from, Vector3f to) {
@@ -72,6 +94,29 @@ public class ElectricalNetwork implements Serializable, Iterable<Vector3f> {
 				list.addAll(edgesTo(to[i]));
 			}
 			return list;
+		}
+	}
+	
+	public List<Vector3f> getPath(Vector3f from, Vector3f to) {
+		ArrayList<Vector3f> list = new ArrayList<Vector3f>();
+		list.add(from);
+		return findPath(from, to, from, list);
+	}
+	
+	private List<Vector3f> findPath(Vector3f from, Vector3f to, Vector3f current, List<Vector3f> path) {
+		if(current == to) {
+			return path;
+		} else {
+			List<Vector3f> edges = edgesFrom(current);
+			for(Vector3f node : edges) {
+				path.add(node);
+				List<Vector3f> list = findPath(from, to, node, path);
+				if(list != null) {
+					return list;
+				}
+				path.remove(node);
+			}
+			return null;
 		}
 	}
 	
