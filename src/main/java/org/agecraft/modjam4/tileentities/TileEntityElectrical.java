@@ -1,19 +1,74 @@
 package org.agecraft.modjam4.tileentities;
 
+import io.netty.buffer.ByteBuf;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.Packet;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
+import org.agecraft.modjam4.MJMessageTile;
+import org.agecraft.modjam4.ModJam4;
 import org.agecraft.modjam4.network.ElectricalNetwork;
 import org.agecraft.modjam4.network.ElectricalNetworkRegistry;
+import org.agecraft.modjam4.util.MJUtilClient;
 import org.agecraft.modjam4.util.Tuple;
 import org.lwjgl.util.vector.Vector3f;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class TileEntityElectrical extends TileEntityExtended {
 
+	public static class MessageTileElectrical extends MJMessageTile {
+		
+		public boolean[] isConnected = new boolean[ForgeDirection.VALID_DIRECTIONS.length];
+		
+		public MessageTileElectrical() {
+			super();
+		}
+		
+		public MessageTileElectrical(int x, int y, int z, boolean[] isConnected) {
+			super(x, y, z);
+			this.isConnected = isConnected;
+		}
+		
+		@Override
+		public void encodeTo(ByteBuf target) {
+			super.encodeTo(target);
+			for(int i = 0; i < isConnected.length; i++) {
+				target.writeBoolean(isConnected[i]);
+			}
+		}
+		
+		@Override
+		public void decodeFrom(ByteBuf source) {
+			super.decodeFrom(source);
+			for(int i = 0; i < isConnected.length; i++) {
+				isConnected[i] = source.readBoolean();
+			}
+		}
+		
+		@Override
+		@SideOnly(Side.CLIENT)
+		public void handle() {
+			World world = MJUtilClient.getWorld();
+			TileEntityElectrical tile = (TileEntityElectrical) world.getTileEntity(x, y, z);
+			tile.isConnected = isConnected;
+		}
+	}
+	
 	private Vector3f position;
 	private ElectricalNetwork network;
+	public boolean[] isConnected = new boolean[ForgeDirection.VALID_DIRECTIONS.length];
+	
+	@Override
+	public Packet getDescriptionPacket() {
+		return ModJam4.packetHandler.getPacketToClient(new MessageTileElectrical(xCoord, yCoord, zCoord, isConnected));
+	}
 	
 	public Vector3f getPosition() {
 		return position == null ? position = new Vector3f(xCoord, yCoord, zCoord) : position;
@@ -64,7 +119,6 @@ public class TileEntityElectrical extends TileEntityExtended {
 		}
 		while(edges.size() > 0) {
 			Tuple<Vector3f, Vector3f> edge = edges.get(0);
-			System.out.println("CHECKING EDGE: " + edge);
 			int from = -1;
 			int to = -1;
 			for(int i = 0; i < trees.size(); i++) {
@@ -80,7 +134,6 @@ public class TileEntityElectrical extends TileEntityExtended {
 					}
 				}
 			}
-			System.out.println("from: " + from + " to: " + to);
 			if(from != -1 && to != -1 && from != to) {
 				ElectricalNetwork treeFrom = trees.get(from);
 				ElectricalNetwork treeTo = trees.get(to);
@@ -123,6 +176,9 @@ public class TileEntityElectrical extends TileEntityExtended {
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		setNetwork(ElectricalNetworkRegistry.getNetwork(nbt.getLong("NetworkID")));
+		for(int i = 0; i < isConnected.length; i++) {
+			isConnected[i] = nbt.getBoolean("IsConnected" + ForgeDirection.values()[i]);
+		}
 	}
 	
 	@Override
@@ -132,6 +188,9 @@ public class TileEntityElectrical extends TileEntityExtended {
 			nbt.setLong("NetworkID", network.id);
 		} else {
 			nbt.setLong("NetworkID", -1L);
+		}
+		for(int i = 0; i < isConnected.length; i++) {
+			nbt.setBoolean("IsConnected" + ForgeDirection.values()[i], isConnected[i]);
 		}
 	}
 }

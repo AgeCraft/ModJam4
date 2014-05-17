@@ -25,7 +25,9 @@ import org.agecraft.modjam4.items.ItemRod;
 import org.agecraft.modjam4.items.ItemScrewdriver;
 import org.agecraft.modjam4.items.ItemShovel;
 import org.agecraft.modjam4.items.ItemSword;
+import org.agecraft.modjam4.tileentities.TileEntityCable.MessageTileCable;
 import org.agecraft.modjam4.tileentities.TileEntityElectrical;
+import org.agecraft.modjam4.tileentities.TileEntityElectrical.MessageTileElectrical;
 import org.agecraft.modjam4.tileentities.TileEntityExtended;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,7 +49,9 @@ public class ModJam4 {
 
 	@SidedProxy(clientSide = MJReference.CLIENT_PROXY_CLASS, serverSide = MJReference.SERVER_PROXY_CLASS)
 	public static MJCommonProxy proxy;
-	
+
+	public static MJPacketHandler<MJMessage> packetHandler;
+
 	public static Logger log = LogManager.getLogger(MJReference.MOD_ID);
 
 	public static MJCreativeTab creativeTab;
@@ -55,7 +59,7 @@ public class ModJam4 {
 	public static Block ore;
 	public static Block block;
 	public static Block cable;
-	
+
 	public static Item ingot;
 	public static Item rod;
 	public static Item swordCopper;
@@ -121,8 +125,8 @@ public class ModJam4 {
 		GameRegistry.registerItem(leggingsCopper, "MJ_leggingsCopper");
 		GameRegistry.registerItem(bootsCopper, "MJ_bootsCopper");
 		GameRegistry.registerItem(screwdriver, "MJ_screwdriver");
-		
-		//register tile entities
+
+		// register tile entities
 		GameRegistry.registerTileEntity(TileEntityExtended.class, "MJ_TileExteneded");
 		GameRegistry.registerTileEntity(TileEntityElectrical.class, "MJ_TileElectrical");
 
@@ -149,9 +153,13 @@ public class ModJam4 {
 		for(int i = 0; i < recipePatterns.length; ++i) {
 			CraftingManager.getInstance().addRecipe(new ItemStack(recipeOutputs[i]), recipePatterns[i], 'X', new ItemStack(ingot, 1, 0), '#', new ItemStack(Items.stick));
 		}
-		
-		//register event handler
+
+		// register event handler
 		MinecraftForge.EVENT_BUS.register(new MJEventHandler());
+
+		// init packet handler
+		packetHandler = new MJPacketHandler<MJMessage>("ModJam4", new MJCodec(MessageTileElectrical.class, MessageTileCable.class));
+		packetHandler.setServerHandler(new MJPacketHandlerServer());
 
 		// register rendering information
 		proxy.registerRenderingInformation();

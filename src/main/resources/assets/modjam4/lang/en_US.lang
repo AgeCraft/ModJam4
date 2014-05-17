@@ -6,9 +6,29 @@ metals.iron=Iron
 metals.nickel=Nickel
 metals.zinc=Zinc
 
+cable.uninsulated=Uninsulated
+cable.insulated=Insulated
+
+color.white=White
+color.orange=Orange
+color.magenta=Magenta
+color.lightBlue=Light Blue
+color.yellow=Yellow
+color.lime=Lime
+color.pink=Pink
+color.gray=Gray
+color.lightGray=Light Gray
+color.cyan=Cyan
+color.purple=Purple
+color.blue=Blue
+color.brown=Brown
+color.green=Green
+color.red=Red
+color.black=Black
+
 tile.MJ_ore.name=%s Ore
 tile.MJ_block.name=%s Block
-tile.MJ_cable.name=Electrical Cable
+tile.MJ_cable.name=%s Cable
 
 item.MJ_ingot.name=%s Ingot
 item.MJ_rod.name=%s Rod

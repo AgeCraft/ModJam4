@@ -69,6 +69,10 @@ public class BlockElectrical extends BlockExtendedContainer {
 							tileOther.getNetwork().addEdge(tile.getPosition(), tileOther.getPosition());
 						}
 					}
+					tile.isConnected[direction.ordinal()] = true;
+					tileOther.isConnected[ForgeDirection.OPPOSITES[direction.ordinal()]] = true;
+				} else {
+					tile.isConnected[direction.ordinal()] = false;
 				}
 			}
 		}

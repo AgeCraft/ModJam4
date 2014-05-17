@@ -7,6 +7,8 @@ import net.minecraftforge.common.config.Configuration;
 public class MJConfig {
 
 	public Configuration config;
+	
+	public static int cableRenderID;
 		
 	public MJConfig(Configuration config) {
 		this.config = config;
