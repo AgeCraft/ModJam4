@@ -79,7 +79,7 @@ public class BlockCable extends BlockElectrical {
 	public void getSubBlocks(Item item, CreativeTabs creativeTab, List list) {
 		list.add(new ItemStack(item, 1, 0));
 		for(int i = 0; i < 16; i++) {
-			list.add(new ItemStack(item, 1, i));
+			list.add(new ItemStack(item, 1, 1 + i * 2));
 		}
 	}
 }

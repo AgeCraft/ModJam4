@@ -1,5 +1,7 @@
 package org.agecraft.modjam4;
 
+import org.agecraft.modjam4.util.MJUtil;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import cpw.mods.fml.relauncher.Side;
@@ -15,7 +17,10 @@ public class MJResources {
 	public static IIcon[] blocks = new IIcon[metals.length];
 	public static IIcon[] ingots = new IIcon[metals.length];
 	public static IIcon[] rods = new IIcon[rodTypes.length];
-
+	
+	public static IIcon cableCopperUninsulated;
+	public static IIcon[] cablesCopper = new IIcon[MJUtil.colorNames.length];
+	
 	public static IIcon screwdriver;
 	public static IIcon battery;
 	
@@ -23,6 +28,10 @@ public class MJResources {
 		for(int i = 0; i < metals.length; i++) {
 			ores[i] = iconRegister.registerIcon("modjam4:ore" + firstUpperCase(metals[i]));
 			blocks[i] = iconRegister.registerIcon("modjam4:block" + firstUpperCase(metals[i]));
+		}
+		cableCopperUninsulated = iconRegister.registerIcon("modjam4:cableCopperUninsulated");
+		for(int i = 0; i < MJUtil.colorNames.length; i++) {
+			cablesCopper[i] = iconRegister.registerIcon("modjam4:cableCopper" + firstUpperCase(MJUtil.getColorName(i)));
 		}
 	}
 	
