@@ -45,6 +45,10 @@ public class MJResources {
 		for(int i = 0; i < rodTypes.length; i++) {
 			rods[i] = iconRegister.registerIcon("modjam4:rod" + firstUpperCase(rodTypes[i]));
 		}
+		cableCopperUninsulated = iconRegister.registerIcon("modjam4:cableCopperUninsulated");
+		for(int i = 0; i < MJUtil.colorNames.length; i++) {
+			cablesCopper[i] = iconRegister.registerIcon("modjam4:cableCopper" + firstUpperCase(MJUtil.getColorName(i)));
+		}
 		
 		screwdriver = iconRegister.registerIcon("modjam4:screwdriver");
 		battery = iconRegister.registerIcon("modjam4:battery");

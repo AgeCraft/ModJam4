@@ -75,6 +75,7 @@ public class BlockElectrical extends BlockExtendedContainer {
 					tile.isConnected[direction.ordinal()] = false;
 				}
 			}
+			world.markBlockForUpdate(x, y, z);
 		}
 	}
 	

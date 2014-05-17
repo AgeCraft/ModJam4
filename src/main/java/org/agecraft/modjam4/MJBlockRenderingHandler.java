@@ -29,7 +29,7 @@ public class MJBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 	}
 
 	private boolean renderBlockCable(IBlockAccess blockAccess, int x, int y, int z, BlockCable block, int modelID, RenderBlocks renderer) {
-		TileEntityCable tile = (TileEntityCable) blockAccess;
+		TileEntityCable tile = (TileEntityCable) blockAccess.getTileEntity(x, y, z);
 		if(tile == null) {
 			tile = new TileEntityCable();
 		}

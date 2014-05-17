@@ -17,7 +17,7 @@ import org.agecraft.modjam4.blocks.BlockOre;
 import org.agecraft.modjam4.items.ItemArmor;
 import org.agecraft.modjam4.items.ItemAxe;
 import org.agecraft.modjam4.items.ItemBlockMetadata;
-import org.agecraft.modjam4.items.ItemBlockName;
+import org.agecraft.modjam4.items.ItemCable;
 import org.agecraft.modjam4.items.ItemHoe;
 import org.agecraft.modjam4.items.ItemIngot;
 import org.agecraft.modjam4.items.ItemPickaxe;
@@ -25,6 +25,7 @@ import org.agecraft.modjam4.items.ItemRod;
 import org.agecraft.modjam4.items.ItemScrewdriver;
 import org.agecraft.modjam4.items.ItemShovel;
 import org.agecraft.modjam4.items.ItemSword;
+import org.agecraft.modjam4.tileentities.TileEntityCable;
 import org.agecraft.modjam4.tileentities.TileEntityCable.MessageTileCable;
 import org.agecraft.modjam4.tileentities.TileEntityElectrical;
 import org.agecraft.modjam4.tileentities.TileEntityElectrical.MessageTileElectrical;
@@ -96,7 +97,7 @@ public class ModJam4 {
 		// register blocks
 		GameRegistry.registerBlock(ore, ItemBlockMetadata.class, "MJ_ore");
 		GameRegistry.registerBlock(block, ItemBlockMetadata.class, "MJ_block");
-		GameRegistry.registerBlock(cable, ItemBlockName.class, "MJ_cable");
+		GameRegistry.registerBlock(cable, ItemCable.class, "MJ_cable");
 
 		// init items
 		ingot = new ItemIngot().setUnlocalizedName("MJ_ingot");
@@ -129,6 +130,7 @@ public class ModJam4 {
 		// register tile entities
 		GameRegistry.registerTileEntity(TileEntityExtended.class, "MJ_TileExteneded");
 		GameRegistry.registerTileEntity(TileEntityElectrical.class, "MJ_TileElectrical");
+		GameRegistry.registerTileEntity(TileEntityCable.class, "MJ_TileCable");
 
 		// set crafting materials
 		toolMaterialCopper.customCraftingMaterial = ingot;

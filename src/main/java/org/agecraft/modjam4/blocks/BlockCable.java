@@ -17,6 +17,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import org.agecraft.modjam4.MJConfig;
 import org.agecraft.modjam4.MJResources;
 import org.agecraft.modjam4.ModJam4;
 import org.agecraft.modjam4.tileentities.TileEntityCable;
@@ -33,9 +34,12 @@ public class BlockCable extends BlockElectrical {
 		setCreativeTab(ModJam4.creativeTab);
 	}
 	
-	@Override
-	public String getLocalizedName() {
-		return StatCollector.translateToLocalFormatted(getUnlocalizedName(), StatCollector.translateToLocal("metals.copper"));
+	public String getLocalizedName(ItemStack stack) {
+		return ((stack.getItemDamage() & 1) == 0 ? StatCollector.translateToLocal("cable.uninsulated") + " " : "") + StatCollector.translateToLocalFormatted(getUnlocalizedName(), StatCollector.translateToLocal("metals.copper"));
+	}
+
+	public String getUnlocalizedName(ItemStack stack) {
+		return getUnlocalizedName();
 	}
 	
 	@Override
@@ -51,6 +55,21 @@ public class BlockCable extends BlockElectrical {
 	@Override
 	public Class<? extends TileEntity> getTileEntityClass() {
 		return TileEntityCable.class;
+	}
+	
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+	
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
+	
+	@Override
+	public int getRenderType() {
+		return MJConfig.cableRenderID;
 	}
 	
 	@Override
@@ -97,7 +116,7 @@ public class BlockCable extends BlockElectrical {
 	public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int meta) {
 		TileEntityCable tile = (TileEntityCable) getTileEntity(world, x, y, z);
 		tile.isInsulated = (meta & 1) == 1;
-		tile.color = (meta & 30);
+		tile.color = (meta & 30) / 2;
 		return 0;
 	}
 	
@@ -107,7 +126,7 @@ public class BlockCable extends BlockElectrical {
 		if((meta & 1) == 0) {
 			return MJResources.cableCopperUninsulated;
 		} else {
-			return MJResources.cablesCopper[meta & 30];
+			return MJResources.cablesCopper[(meta & 30) / 2];
 		}
 	}
 	

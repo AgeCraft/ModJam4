@@ -167,7 +167,10 @@ public class TileEntityElectrical extends TileEntityExtended {
 		setNetwork(null);
 		for(ElectricalNetwork net : networks) {
 			for(Vector3f node : net) {
-				((TileEntityElectrical) worldObj.getTileEntity((int) node.x, (int) node.y, (int) node.z)).setNetwork(net);
+				TileEntityElectrical tile = (TileEntityElectrical) worldObj.getTileEntity((int) node.x, (int) node.y, (int) node.z);
+				if(tile != null) {
+					tile.setNetwork(net);
+				}
 			}
 		}
 	}
