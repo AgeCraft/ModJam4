@@ -22,26 +22,31 @@ public class TileEntityElectrical extends TileEntityExtended {
 	}
 	
 	public void setNetwork(ElectricalNetwork network) {
+		ElectricalNetworkRegistry.networks.remove(this.network.id);
 		this.network = network;
 	}
 	
 	public void createNetwork() {
-		network = new ElectricalNetwork();
-		ElectricalNetworkRegistry.registerNetwork(network);
-		network.addNode(getPosition());
+		if(network == null) {
+			network = new ElectricalNetwork();
+			ElectricalNetworkRegistry.registerNetwork(network);
+			network.addNode(getPosition());
+		}
 	}
 	
 	public void mergeNetworks(TileEntityElectrical tile) {
-		ElectricalNetwork otherNetwork = tile.getNetwork();
-		for(Vector3f node : otherNetwork) {
-			network.addNode(node);
-			List<Vector3f> list = otherNetwork.nodes.get(node);
-			for(Vector3f n : list) {
-				network.addEdge(node, n);
+		if(network.id == tile.getNetwork().id) {
+			ElectricalNetwork otherNetwork = tile.getNetwork();
+			for(Vector3f node : otherNetwork) {
+				network.addNode(node);
+				List<Vector3f> list = otherNetwork.nodes.get(node);
+				for(Vector3f n : list) {
+					network.addEdge(node, n);
+				}
 			}
+			tile.setNetwork(network);
+			otherNetwork = null;
 		}
-		tile.setNetwork(network);
-		otherNetwork = null;
 	}
 	
 	@Override

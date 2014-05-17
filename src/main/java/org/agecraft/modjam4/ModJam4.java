@@ -8,6 +8,7 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 
 import org.agecraft.modjam4.blocks.BlockBlock;
@@ -24,7 +25,10 @@ import org.agecraft.modjam4.items.ItemRod;
 import org.agecraft.modjam4.items.ItemScrewdriver;
 import org.agecraft.modjam4.items.ItemShovel;
 import org.agecraft.modjam4.items.ItemSword;
+import org.agecraft.modjam4.tileentities.TileEntityElectrical;
 import org.agecraft.modjam4.tileentities.TileEntityExtended;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -43,6 +47,8 @@ public class ModJam4 {
 
 	@SidedProxy(clientSide = MJReference.CLIENT_PROXY_CLASS, serverSide = MJReference.SERVER_PROXY_CLASS)
 	public static MJCommonProxy proxy;
+	
+	public static Logger log = LogManager.getLogger(MJReference.MOD_ID);
 
 	public static MJCreativeTab creativeTab;
 
@@ -118,6 +124,7 @@ public class ModJam4 {
 		
 		//register tile entities
 		GameRegistry.registerTileEntity(TileEntityExtended.class, "MJ_TileExteneded");
+		GameRegistry.registerTileEntity(TileEntityElectrical.class, "MJ_TileElectrical");
 
 		// set crafting materials
 		toolMaterialCopper.customCraftingMaterial = ingot;
@@ -137,11 +144,14 @@ public class ModJam4 {
 		CraftingManager.getInstance().addRecipe(new ItemStack(screwdriver), " X", "IY", 'X', new ItemStack(rod, 1, 1), 'I', new ItemStack(Items.stick), 'Y', new ItemStack(Items.dye, 1, 11));
 		CraftingManager.getInstance().addRecipe(new ItemStack(screwdriver), "YX", "I ", 'X', new ItemStack(rod, 1, 1), 'I', new ItemStack(Items.stick), 'Y', new ItemStack(Items.dye, 1, 11));
 
-		String[][] recipePatterns = new String[][]{{"XXX", "X X"}, {"X X", "XXX", "XXX"}, {"XXX", "X X", "X X"}, {"X X", "X X"}, {"X", "X", "#"}, {"XXX", " # ", " # "}, {"XX", "X#", " #"}, {"X", "#", " #"}, {"XX", " #", " #"}};
+		String[][] recipePatterns = new String[][]{{"XXX", "X X"}, {"X X", "XXX", "XXX"}, {"XXX", "X X", "X X"}, {"X X", "X X"}, {"X", "X", "#"}, {"XXX", " # ", " # "}, {"XX", "X#", " #"}, {"X", "#", "#"}, {"XX", " #", " #"}};
 		Item[] recipeOutputs = new Item[]{helmetCopper, chestplateCopper, leggingsCopper, bootsCopper, swordCopper, pickaxeCopper, axeCopper, shovelCopper, hoeCopper};
 		for(int i = 0; i < recipePatterns.length; ++i) {
 			CraftingManager.getInstance().addRecipe(new ItemStack(recipeOutputs[i]), recipePatterns[i], 'X', new ItemStack(ingot, 1, 0), '#', new ItemStack(Items.stick));
 		}
+		
+		//register event handler
+		MinecraftForge.EVENT_BUS.register(new MJEventHandler());
 
 		// register rendering information
 		proxy.registerRenderingInformation();

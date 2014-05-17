@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
@@ -41,8 +42,10 @@ public class ItemScrewdriver extends Item {
 		if(!world.isRemote) {
 			Block block = world.getBlock(x, y, z);
 			if(block != null && block instanceof BlockElectrical) {
-				player.addChatComponentMessage(new ChatComponentText("Electrical Network @ " + x + ", " + y + ", " + z));
+				player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.UNDERLINE + "Electrical Network @ " + x + ", " + y + ", " + z + EnumChatFormatting.RESET));
+				player.addChatComponentMessage(new ChatComponentText(""));
 				player.addChatComponentMessage(new ChatComponentText(((BlockElectrical) block).getNetwork(world, x, y, z).toString()));
+				player.addChatComponentMessage(new ChatComponentText(""));
 			}
 		}
 		return true;

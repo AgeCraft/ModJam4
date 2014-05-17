@@ -40,6 +40,9 @@ public class BlockElectrical extends BlockExtendedContainer {
 		TileEntityElectrical tile = (TileEntityElectrical) getTileEntity(world, x, y, z);
 		if(tile != null && tile.getNetwork() != null) {
 			tile.getNetwork().removeNode(tile.getPosition());
+			if(tile.getNetwork().size() <= 0) {
+				tile.setNetwork(null);
+			}
 		}
 	}
 	
@@ -53,11 +56,15 @@ public class BlockElectrical extends BlockExtendedContainer {
 				int otherY = y + direction.offsetY;
 				int otherZ = z + direction.offsetZ;
 				if(canConnect(world, x, y, z, otherX, otherY, otherZ) && (world.getBlock(otherX, otherY, otherZ) instanceof BlockElectrical && ((BlockElectrical) world.getBlock(otherX, otherY, otherZ)).canConnect(world, otherX, otherY, otherZ, x, y, z))) {
-					TileEntityElectrical tileOther = (TileEntityElectrical) getTileEntity(world, x, y, z);
-					if(tile.getNetwork().size() > tileOther.getNetwork().size()) {
-						tile.mergeNetworks(tileOther);
-					} else {
-						tileOther.mergeNetworks(tile);
+					TileEntityElectrical tileOther = (TileEntityElectrical) getTileEntity(world, otherX, otherY, otherZ);
+					if(tileOther != null && tileOther.getNetwork() != null && !tile.getNetwork().hasEdge(tile.getPosition(), tileOther.getPosition())) {
+						if(tile.getNetwork().size() > tileOther.getNetwork().size()) {
+							tile.mergeNetworks(tileOther);
+							tile.getNetwork().addEdge(tile.getPosition(), tileOther.getPosition());
+						} else {
+							tileOther.mergeNetworks(tile);
+							tileOther.getNetwork().addEdge(tile.getPosition(), tileOther.getPosition());
+						}
 					}
 				}
 			}

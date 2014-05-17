@@ -45,20 +45,26 @@ public class MJSaveHandler {
 	public void load(String fileName, File file, ObjectInputStream in) {
 		try {
 			if(fileName.equalsIgnoreCase("electrical_networks")) {
+				ElectricalNetworkRegistry.networks.clear();
 				ElectricalNetworkRegistry.networks = (HashMap<Long, ElectricalNetwork>) in.readObject();
 				if(ElectricalNetworkRegistry.networks == null) {
 					ElectricalNetworkRegistry.networks = new HashMap<Long, ElectricalNetwork>();
 				}
+				ModJam4.log.info("Loaded " + ElectricalNetworkRegistry.networks.size() + " electrical networks");
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void save(String fileName, File file, ObjectOutputStream out) {
+	public void save(String fileName, File file, ObjectOutputStream out, boolean isNewFile) {
 		try {
 			if(fileName.equalsIgnoreCase("electrical_networks")) {
+				if(isNewFile) {
+					ElectricalNetworkRegistry.networks.clear();
+				}
 				out.writeObject(ElectricalNetworkRegistry.networks);
+				ModJam4.log.info("Saved " + ElectricalNetworkRegistry.networks.size() + " electrical networks");
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -69,7 +75,7 @@ public class MJSaveHandler {
 
 	}
 
-	public void saveNBT(String fileName, File file, NBTTagCompound nbt) {
+	public void saveNBT(String fileName, File file, NBTTagCompound nbt, boolean isNewFile) {
 
 	}
 
@@ -91,7 +97,7 @@ public class MJSaveHandler {
 									loadFile(saveFileNames[i], fileBackup);
 								} else {
 									file.createNewFile();
-									saveFile(saveFileNames[i], file);
+									saveFile(saveFileNames[i], file, true);
 								}
 							}
 						}
@@ -111,7 +117,7 @@ public class MJSaveHandler {
 									loadFileNBT(saveFileNames[i], fileBackup);
 								} else {
 									file.createNewFile();
-									saveFileNBT(saveFileNames[i], file);
+									saveFileNBT(saveFileNames[i], file, true);
 								}
 							}
 						}
@@ -123,31 +129,23 @@ public class MJSaveHandler {
 		}
 	}
 
-	private void loadFile(String fileName, File file) {
-		try {
-			FileInputStream fis = new FileInputStream(file.getAbsolutePath());
-			GZIPInputStream gzis = new GZIPInputStream(fis);
-			ObjectInputStream in = new ObjectInputStream(gzis);
+	private void loadFile(String fileName, File file) throws Exception {
+		FileInputStream fis = new FileInputStream(file.getAbsolutePath());
+		GZIPInputStream gzis = new GZIPInputStream(fis);
+		ObjectInputStream in = new ObjectInputStream(gzis);
 
-			load(fileName, file, in);
+		load(fileName, file, in);
 
-			in.close();
-			gzis.close();
-			fis.close();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		in.close();
+		gzis.close();
+		fis.close();
 	}
 
-	private void loadFileNBT(String fileName, File file) {
-		try {
-			FileInputStream fis = new FileInputStream(file);
-			NBTTagCompound nbt = CompressedStreamTools.readCompressed(fis);
-			fis.close();
-			loadNBT(fileName, file, nbt);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+	private void loadFileNBT(String fileName, File file) throws Exception {
+		FileInputStream fis = new FileInputStream(file);
+		NBTTagCompound nbt = CompressedStreamTools.readCompressed(fis);
+		fis.close();
+		loadNBT(fileName, file, nbt);
 	}
 
 	public void save() {
@@ -157,47 +155,47 @@ public class MJSaveHandler {
 				SaveFileType saveFileType = getSaveFileType(saveFileNames[i]);
 				if(saveFileType == SaveFileType.OBJECT) {
 					File file = getSaveFile(saveHandler, world, saveFileNames[i] + ".dat", false);
-					saveFile(saveFileNames[i], file);
+					try {
+						saveFile(saveFileNames[i], file, false);
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
 				} else if(saveFileType == SaveFileType.NBT) {
 					File file = getSaveFile(saveHandler, world, saveFileNames[i] + ".dat", false);
-					saveFileNBT(saveFileNames[i], file);
+					try {
+						saveFileNBT(saveFileNames[i], file, false);
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
 	}
 
-	public void saveFile(String fileName, File file) {
-		try {
-			FileOutputStream fos = new FileOutputStream(file);
-			GZIPOutputStream gzos = new GZIPOutputStream(fos);
-			ObjectOutputStream out = new ObjectOutputStream(gzos);
+	public void saveFile(String fileName, File file, boolean isNewFile) throws Exception {
+		FileOutputStream fos = new FileOutputStream(file);
+		GZIPOutputStream gzos = new GZIPOutputStream(fos);
+		ObjectOutputStream out = new ObjectOutputStream(gzos);
 
-			save(fileName, file, out);
+		save(fileName, file, out, isNewFile);
 
-			out.flush();
-			out.close();
-			gzos.close();
-			fos.close();
-			copyFile(file, new File(new StringBuilder().append(file.getAbsolutePath()).append(".bak").toString()));
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		out.flush();
+		out.close();
+		gzos.close();
+		fos.close();
+		copyFile(file, new File(new StringBuilder().append(file.getAbsolutePath()).append(".bak").toString()));
 	}
 
-	public void saveFileNBT(String fileName, File file) {
-		try {
-			NBTTagCompound nbt = new NBTTagCompound();
+	public void saveFileNBT(String fileName, File file, boolean isNewFile) throws Exception {
+		NBTTagCompound nbt = new NBTTagCompound();
 
-			saveNBT(fileName, file, nbt);
+		saveNBT(fileName, file, nbt, isNewFile);
 
-			FileOutputStream fos = new FileOutputStream(file);
-			CompressedStreamTools.writeCompressed(nbt, fos);
-			fos.close();
+		FileOutputStream fos = new FileOutputStream(file);
+		CompressedStreamTools.writeCompressed(nbt, fos);
+		fos.close();
 
-			copyFile(file, new File(new StringBuilder().append(file.getAbsolutePath()).append(".bak").toString()));
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		copyFile(file, new File(new StringBuilder().append(file.getAbsolutePath()).append(".bak").toString()));
 	}
 
 	public File getSaveFile(ISaveHandler saveHandler, World world, String name, boolean backup) {
@@ -206,8 +204,8 @@ public class MJSaveHandler {
 		if((loader instanceof AnvilChunkLoader)) {
 			worldDir = ((AnvilChunkLoader) loader).chunkSaveLocation;
 		}
-		File file = new File(worldDir, new StringBuilder().append(name).append(backup ? ".bak" : "").toString());
-		if(!file.exists()) {
+		File file = new File(worldDir, name + (backup ? ".bak" : ""));
+		if(!backup && !file.exists()) {
 			try {
 				file.createNewFile();
 			} catch(Exception e) {
