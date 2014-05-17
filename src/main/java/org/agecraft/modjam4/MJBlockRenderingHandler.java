@@ -36,19 +36,19 @@ public class MJBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 		renderer.setRenderBounds(pixels(7), pixels(7), pixels(7), pixels(9), pixels(9), pixels(9));
 		renderer.renderStandardBlock(block, x, y, z);
 		if(tile.isConnected[ForgeDirection.NORTH.ordinal()]) {
-			renderer.setRenderBounds(pixels(7), pixels(7), pixels(7), pixels(9), pixels(9), pixels(9));
+			renderer.setRenderBounds(pixels(7), pixels(7), pixels(0), pixels(9), pixels(9), pixels(7));
 			renderer.renderStandardBlock(block, x, y, z);
 		}
 		if(tile.isConnected[ForgeDirection.SOUTH.ordinal()]) {
-			renderer.setRenderBounds(pixels(7), pixels(7), pixels(7), pixels(9), pixels(9), pixels(9));
+			renderer.setRenderBounds(pixels(7), pixels(7), pixels(9), pixels(9), pixels(9), pixels(16));
 			renderer.renderStandardBlock(block, x, y, z);
 		}
 		if(tile.isConnected[ForgeDirection.EAST.ordinal()]) {
-			renderer.setRenderBounds(pixels(7), pixels(7), pixels(7), pixels(9), pixels(9), pixels(9));
+			renderer.setRenderBounds(pixels(9), pixels(7), pixels(7), pixels(16), pixels(9), pixels(9));
 			renderer.renderStandardBlock(block, x, y, z);
 		}
 		if(tile.isConnected[ForgeDirection.WEST.ordinal()]) {
-			renderer.setRenderBounds(pixels(7), pixels(7), pixels(7), pixels(9), pixels(9), pixels(9));
+			renderer.setRenderBounds(pixels(0), pixels(7), pixels(7), pixels(7), pixels(9), pixels(9));
 			renderer.renderStandardBlock(block, x, y, z);
 		}
 		if(tile.isConnected[ForgeDirection.UP.ordinal()]) {

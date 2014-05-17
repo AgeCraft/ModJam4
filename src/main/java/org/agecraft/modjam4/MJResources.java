@@ -21,6 +21,9 @@ public class MJResources {
 	public static IIcon cableCopperUninsulated;
 	public static IIcon[] cablesCopper = new IIcon[MJUtil.colorNames.length];
 	
+	public static IIcon itemCableCopperUninsulated;
+	public static IIcon[] itemCablesCopper = new IIcon[MJUtil.colorNames.length];
+	
 	public static IIcon screwdriver;
 	public static IIcon battery;
 	

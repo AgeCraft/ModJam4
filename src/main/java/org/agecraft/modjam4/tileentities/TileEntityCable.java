@@ -51,8 +51,8 @@ public class TileEntityCable extends TileEntityElectrical {
 		}
 	}
 	
-	public boolean isInsulated = false;
-	public int color = -1;
+	public boolean isInsulated;
+	public int color;
 	
 	@Override
 	public Packet getDescriptionPacket() {

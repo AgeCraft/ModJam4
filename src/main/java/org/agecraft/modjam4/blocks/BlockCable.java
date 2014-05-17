@@ -12,9 +12,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
+import org.agecraft.modjam4.MJResources;
 import org.agecraft.modjam4.ModJam4;
 import org.agecraft.modjam4.tileentities.TileEntityCable;
 
@@ -28,6 +31,11 @@ public class BlockCable extends BlockElectrical {
 		setHardness(0.8F);
 		setStepSound(Block.soundTypeCloth);
 		setCreativeTab(ModJam4.creativeTab);
+	}
+	
+	@Override
+	public String getLocalizedName() {
+		return StatCollector.translateToLocalFormatted(getUnlocalizedName(), StatCollector.translateToLocal("metals.copper"));
 	}
 	
 	@Override
@@ -47,7 +55,36 @@ public class BlockCable extends BlockElectrical {
 	
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
-		
+		TileEntityCable tile = (TileEntityCable) getTileEntity(blockAccess, x, y, z);
+		float minX = pixels(7);
+		float minY = pixels(7);
+		float minZ = pixels(7);
+		float maxX = pixels(9);
+		float maxY = pixels(9);
+		float maxZ = pixels(9);
+		if(tile.isConnected[ForgeDirection.NORTH.ordinal()]) {
+			minZ = pixels(0);
+		}
+		if(tile.isConnected[ForgeDirection.SOUTH.ordinal()]) {
+			maxZ = pixels(16);
+		}
+		if(tile.isConnected[ForgeDirection.EAST.ordinal()]) {
+			maxX = pixels(16);
+		}
+		if(tile.isConnected[ForgeDirection.WEST.ordinal()]) {
+			minZ = pixels(0);
+		}
+		if(tile.isConnected[ForgeDirection.UP.ordinal()]) {
+			maxY = pixels(16);
+		}
+		if(tile.isConnected[ForgeDirection.DOWN.ordinal()]) {
+			minY = pixels(0);
+		}
+		setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
+	}
+	
+	public float pixels(int pixels) {
+		return ((float) pixels) * 0.0625F;
 	}
 	
 	@Override
@@ -57,15 +94,32 @@ public class BlockCable extends BlockElectrical {
 	}
 	
 	@Override
+	public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int meta) {
+		TileEntityCable tile = (TileEntityCable) getTileEntity(world, x, y, z);
+		tile.isInsulated = (meta & 1) == 1;
+		tile.color = (meta & 30);
+		return 0;
+	}
+	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
-		return null;
+		if((meta & 1) == 0) {
+			return MJResources.cableCopperUninsulated;
+		} else {
+			return MJResources.cablesCopper[meta & 30];
+		}
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(IBlockAccess blockAccess, int x, int y, int z, int side) {
-		return null;
+		TileEntityCable tile = (TileEntityCable) getTileEntity(blockAccess, x, y, z);
+		if(!tile.isInsulated) {
+			return MJResources.cableCopperUninsulated;
+		} else {
+			return MJResources.cablesCopper[tile.color];
+		}
 	}
 	
 	@Override
