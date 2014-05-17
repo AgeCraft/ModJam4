@@ -11,10 +11,12 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.common.util.EnumHelper;
 
 import org.agecraft.modjam4.blocks.BlockBlock;
+import org.agecraft.modjam4.blocks.BlockCable;
 import org.agecraft.modjam4.blocks.BlockOre;
 import org.agecraft.modjam4.items.ItemArmor;
 import org.agecraft.modjam4.items.ItemAxe;
 import org.agecraft.modjam4.items.ItemBlockMetadata;
+import org.agecraft.modjam4.items.ItemBlockName;
 import org.agecraft.modjam4.items.ItemHoe;
 import org.agecraft.modjam4.items.ItemIngot;
 import org.agecraft.modjam4.items.ItemPickaxe;
@@ -46,7 +48,8 @@ public class ModJam4 {
 
 	public static Block ore;
 	public static Block block;
-
+	public static Block cable;
+	
 	public static Item ingot;
 	public static Item rod;
 	public static Item swordCopper;
@@ -78,10 +81,12 @@ public class ModJam4 {
 		// init blocks
 		ore = new BlockOre().setBlockName("MJ_ore");
 		block = new BlockBlock().setBlockName("MJ_block");
+		cable = new BlockCable().setBlockName("MJ_cable");
 
 		// register blocks
 		GameRegistry.registerBlock(ore, ItemBlockMetadata.class, "MJ_ore");
 		GameRegistry.registerBlock(block, ItemBlockMetadata.class, "MJ_block");
+		GameRegistry.registerBlock(cable, ItemBlockName.class, "MJ_cable");
 
 		// init items
 		ingot = new ItemIngot().setUnlocalizedName("MJ_ingot");
@@ -132,10 +137,10 @@ public class ModJam4 {
 		CraftingManager.getInstance().addRecipe(new ItemStack(screwdriver), " X", "IY", 'X', new ItemStack(rod, 1, 1), 'I', new ItemStack(Items.stick), 'Y', new ItemStack(Items.dye, 1, 11));
 		CraftingManager.getInstance().addRecipe(new ItemStack(screwdriver), "YX", "I ", 'X', new ItemStack(rod, 1, 1), 'I', new ItemStack(Items.stick), 'Y', new ItemStack(Items.dye, 1, 11));
 
-		String[][] recipePatterns = new String[][]{{"XXX", "X X"}, {"X X", "XXX", "XXX"}, {"XXX", "X X", "X X"}, {"X X", "X X"}, {"X", "X", "#"}, {"XXX", " # ", " # "}, {"XX", "X#", "#"}, {"X", "#", " #"}, {"XX", " #", " #"}};
+		String[][] recipePatterns = new String[][]{{"XXX", "X X"}, {"X X", "XXX", "XXX"}, {"XXX", "X X", "X X"}, {"X X", "X X"}, {"X", "X", "#"}, {"XXX", " # ", " # "}, {"XX", "X#", " #"}, {"X", "#", " #"}, {"XX", " #", " #"}};
 		Item[] recipeOutputs = new Item[]{helmetCopper, chestplateCopper, leggingsCopper, bootsCopper, swordCopper, pickaxeCopper, axeCopper, shovelCopper, hoeCopper};
 		for(int i = 0; i < recipePatterns.length; ++i) {
-			CraftingManager.getInstance().addRecipe(new ItemStack(recipeOutputs[i]), new Object[]{recipePatterns[i], 'X', new ItemStack(ingot, 1, 0), '#', new ItemStack(Items.stick)});
+			CraftingManager.getInstance().addRecipe(new ItemStack(recipeOutputs[i]), recipePatterns[i], 'X', new ItemStack(ingot, 1, 0), '#', new ItemStack(Items.stick));
 		}
 
 		// register rendering information

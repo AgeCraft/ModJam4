@@ -1,15 +1,18 @@
 package org.agecraft.modjam4.items;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 import org.agecraft.modjam4.MJResources;
 import org.agecraft.modjam4.ModJam4;
+import org.agecraft.modjam4.blocks.BlockElectrical;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,6 +38,13 @@ public class ItemScrewdriver extends Item {
 	
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+		if(!world.isRemote) {
+			Block block = world.getBlock(x, y, z);
+			if(block != null && block instanceof BlockElectrical) {
+				player.addChatComponentMessage(new ChatComponentText("Electrical Network @ " + x + ", " + y + ", " + z));
+				player.addChatComponentMessage(new ChatComponentText(((BlockElectrical) block).getNetwork(world, x, y, z).toString()));
+			}
+		}
 		return true;
 	}
 	

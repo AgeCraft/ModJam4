@@ -1,21 +1,24 @@
 package org.agecraft.modjam4.network;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.lwjgl.util.vector.Vector3f;
 
-public class ElectricalNetwork {
+public class ElectricalNetwork implements Serializable, Iterable<Vector3f> {
+
+	private static final long serialVersionUID = 1L;
 	
+	public long id;
 	public HashMap<Vector3f, List<Vector3f>> nodes = new HashMap<Vector3f, List<Vector3f>>();
-
-	public ElectricalNetwork() {
-		
-	}
-
+	
 	public void addNode(Vector3f node) {
-		nodes.put(node, new ArrayList<Vector3f>());
+		if(!nodes.containsKey(node)) {
+			nodes.put(node, new ArrayList<Vector3f>());
+		}
 	}
 
 	public void removeNode(Vector3f node) {
@@ -70,6 +73,15 @@ public class ElectricalNetwork {
 			}
 			return list;
 		}
+	}
+	
+	@Override
+	public Iterator<Vector3f> iterator() {
+		return nodes.keySet().iterator();
+	}
+	
+	public int size() {
+		return nodes.size();
 	}
 	
 	@Override
