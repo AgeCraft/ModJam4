@@ -58,6 +58,7 @@ public class TileEntityElectrical extends TileEntityExtended {
 			World world = MJUtilClient.getWorld();
 			TileEntityElectrical tile = (TileEntityElectrical) world.getTileEntity(x, y, z);
 			tile.isConnected = isConnected;
+			world.markBlockForUpdate(x, y, z);
 		}
 	}
 	

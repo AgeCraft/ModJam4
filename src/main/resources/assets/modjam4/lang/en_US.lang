@@ -9,6 +9,8 @@ metals.zinc=Zinc
 cable.uninsulated=Uninsulated
 cable.insulated=Insulated
 
+machine.steamEngine=Steam Engine
+
 color.white=White
 color.orange=Orange
 color.magenta=Magenta
@@ -29,6 +31,8 @@ color.black=Black
 tile.MJ_ore.name=%s Ore
 tile.MJ_block.name=%s Block
 tile.MJ_cable.name=%s Cable
+tile.MJ_steamEngine.name=Steam Engine
+tile.MJ_batteryBlock.name=Battery
 
 item.MJ_ingot.name=%s Ingot
 item.MJ_rod.name=%s Rod

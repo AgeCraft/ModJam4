@@ -1,6 +1,7 @@
 package org.agecraft.modjam4.tileentities;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.world.World;
 
@@ -46,8 +47,10 @@ public class TileEntityCable extends TileEntityElectrical {
 		public void handle() {
 			World world = MJUtilClient.getWorld();
 			TileEntityCable tile = (TileEntityCable) world.getTileEntity(x, y, z);
+			tile.isConnected = isConnected;
 			tile.isInsulated = isInsulated;
 			tile.color = color;
+			world.markBlockForUpdate(x, y, z);
 		}
 	}
 	
@@ -57,5 +60,19 @@ public class TileEntityCable extends TileEntityElectrical {
 	@Override
 	public Packet getDescriptionPacket() {
 		return ModJam4.packetHandler.getPacketToClient(new MessageTileCable(xCoord, yCoord, zCoord, isConnected, isInsulated, color));
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		isInsulated = nbt.getBoolean("IsInsulated");
+		color = nbt.getInteger("Color");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setBoolean("IsInsulated", isInsulated);
+		nbt.setInteger("Color", color);
 	}
 }

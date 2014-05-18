@@ -72,6 +72,9 @@ public class BlockElectrical extends BlockExtendedContainer {
 					tile.isConnected[direction.ordinal()] = true;
 					tileOther.isConnected[ForgeDirection.OPPOSITES[direction.ordinal()]] = true;
 				} else {
+					if(world.getBlock(otherX, otherY, otherZ) instanceof BlockElectrical) {
+						((TileEntityElectrical) world.getTileEntity(otherX, otherY, otherZ)).isConnected[ForgeDirection.OPPOSITES[direction.ordinal()]] = false;
+					}
 					tile.isConnected[direction.ordinal()] = false;
 				}
 			}

@@ -33,30 +33,33 @@ public class MJBlockRenderingHandler implements ISimpleBlockRenderingHandler {
 		if(tile == null) {
 			tile = new TileEntityCable();
 		}
-		renderer.setRenderBounds(pixels(7), pixels(7), pixels(7), pixels(9), pixels(9), pixels(9));
+		int size = tile.isInsulated ? 2 : 1;
+		double min = pixels(8 - size);
+		double max = pixels(8 + size);
+		renderer.setRenderBounds(min, min, min, max, max, max);
 		renderer.renderStandardBlock(block, x, y, z);
 		if(tile.isConnected[ForgeDirection.NORTH.ordinal()]) {
-			renderer.setRenderBounds(pixels(7), pixels(7), pixels(0), pixels(9), pixels(9), pixels(7));
+			renderer.setRenderBounds(min, min, 0.0D, max, max, min);
 			renderer.renderStandardBlock(block, x, y, z);
 		}
 		if(tile.isConnected[ForgeDirection.SOUTH.ordinal()]) {
-			renderer.setRenderBounds(pixels(7), pixels(7), pixels(9), pixels(9), pixels(9), pixels(16));
+			renderer.setRenderBounds(min, min, max, max, max, 1.0D);
 			renderer.renderStandardBlock(block, x, y, z);
 		}
 		if(tile.isConnected[ForgeDirection.EAST.ordinal()]) {
-			renderer.setRenderBounds(pixels(9), pixels(7), pixels(7), pixels(16), pixels(9), pixels(9));
+			renderer.setRenderBounds(max, min, min, 1.0D, max, max);
 			renderer.renderStandardBlock(block, x, y, z);
 		}
 		if(tile.isConnected[ForgeDirection.WEST.ordinal()]) {
-			renderer.setRenderBounds(pixels(0), pixels(7), pixels(7), pixels(7), pixels(9), pixels(9));
+			renderer.setRenderBounds(0.0D, min, min, min, max, max);
 			renderer.renderStandardBlock(block, x, y, z);
 		}
 		if(tile.isConnected[ForgeDirection.UP.ordinal()]) {
-			renderer.setRenderBounds(pixels(7), pixels(9), pixels(7), pixels(9), pixels(16), pixels(9));
+			renderer.setRenderBounds(min, max, min, max, 1.0D, max);
 			renderer.renderStandardBlock(block, x, y, z);
 		}
 		if(tile.isConnected[ForgeDirection.DOWN.ordinal()]) {
-			renderer.setRenderBounds(pixels(7), pixels(0), pixels(7), pixels(9), pixels(7), pixels(9));
+			renderer.setRenderBounds(min, 0.0D, min, max, min, max);
 			renderer.renderStandardBlock(block, x, y, z);
 		}
 		return true;
