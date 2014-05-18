@@ -3,6 +3,8 @@ package org.agecraft.modjam4;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
 
 import org.agecraft.modjam4.util.MJUtil;
 
@@ -31,6 +33,8 @@ public class MJResources {
 	public static IIcon screwdriver;
 	public static IIcon battery;
 	
+	public static IModelCustom modelSteamEngine;
+	
 	public static void registerBlockIcons(IIconRegister iconRegister) {
 		for(int i = 0; i < metals.length; i++) {
 			ores[i] = iconRegister.registerIcon("modjam4:ore" + firstUpperCase(metals[i]));
@@ -56,6 +60,10 @@ public class MJResources {
 		
 		screwdriver = iconRegister.registerIcon("modjam4:screwdriver");
 		battery = iconRegister.registerIcon("modjam4:battery");
+	}
+	
+	public static void load() {
+		modelSteamEngine = AdvancedModelLoader.loadModel(new ResourceLocation("modjam4", "models/steamEngine.obj"));
 	}
 
 	public static String firstUpperCase(String s) {

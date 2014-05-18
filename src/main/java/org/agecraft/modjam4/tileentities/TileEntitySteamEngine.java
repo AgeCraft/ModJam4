@@ -12,6 +12,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntitySteamEngine extends TileEntityElectrical implements ISidedInventory {
 
+	public static final double ENERGY_PER_TICK = 0.5D;
+	
 	public static final int[] accessibleSlots = new int[]{0};
 
 	public ItemStack input;
@@ -23,13 +25,13 @@ public class TileEntitySteamEngine extends TileEntityElectrical implements ISide
 		super.updateEntity();
 		if(!worldObj.isRemote) {
 			if(burnTime > 0) {
+				addEnergy(ForgeDirection.UNKNOWN, ENERGY_PER_TICK);
 				burnTime--;
 			} else {
 				if(input != null && input.stackSize > 0) {
 					currentItemBurnTime = TileEntityFurnace.getItemBurnTime(input);
 					burnTime += currentItemBurnTime;
 					input.stackSize--;
-					addEnergy(ForgeDirection.UNKNOWN, 10.0D);
 					if(input.stackSize == 0) {
 						input = input.getItem().getContainerItem(input);
 					}

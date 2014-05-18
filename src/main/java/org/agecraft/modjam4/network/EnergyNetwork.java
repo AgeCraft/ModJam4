@@ -132,12 +132,15 @@ public class EnergyNetwork implements Serializable, Iterable<Vector3f> {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
+		sb.append("EnergyNetwork[id=");
+		sb.append(id);
+		sb.append(", nodes=[\n");
 		for(Vector3f node : nodes.keySet()) {
 			sb.append(node.toString());
 			sb.append(": ");
 			sb.append(nodes.get(node).toString());
 			sb.append(",\n");
 		}
-		return sb.substring(0, sb.length() - 2);
+		return sb.substring(0, sb.length() - 2) + "]]";
 	}
 }
