@@ -14,9 +14,11 @@ import net.minecraftforge.common.util.EnumHelper;
 import org.agecraft.modjam4.blocks.BlockBlock;
 import org.agecraft.modjam4.blocks.BlockCable;
 import org.agecraft.modjam4.blocks.BlockOre;
+import org.agecraft.modjam4.blocks.BlockSteamEngine;
 import org.agecraft.modjam4.items.ItemArmor;
 import org.agecraft.modjam4.items.ItemAxe;
 import org.agecraft.modjam4.items.ItemBlockMetadata;
+import org.agecraft.modjam4.items.ItemBlockName;
 import org.agecraft.modjam4.items.ItemCable;
 import org.agecraft.modjam4.items.ItemHoe;
 import org.agecraft.modjam4.items.ItemIngot;
@@ -40,6 +42,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = MJReference.MOD_ID, name = MJReference.NAME, version = MJReference.VERSION, acceptedMinecraftVersions = MJReference.MC_VERSION, dependencies = MJReference.DEPENDENCIES)
@@ -60,6 +63,7 @@ public class ModJam4 {
 	public static Block ore;
 	public static Block block;
 	public static Block cable;
+	public static Block steamEngine;
 
 	public static Item ingot;
 	public static Item rod;
@@ -93,11 +97,13 @@ public class ModJam4 {
 		ore = new BlockOre().setBlockName("MJ_ore");
 		block = new BlockBlock().setBlockName("MJ_block");
 		cable = new BlockCable().setBlockName("MJ_cable");
+		steamEngine = new BlockSteamEngine().setBlockName("MJ_steamEngine");
 
 		// register blocks
 		GameRegistry.registerBlock(ore, ItemBlockMetadata.class, "MJ_ore");
 		GameRegistry.registerBlock(block, ItemBlockMetadata.class, "MJ_block");
 		GameRegistry.registerBlock(cable, ItemCable.class, "MJ_cable");
+		GameRegistry.registerBlock(steamEngine, ItemBlockName.class, "MJ_steamEngine");
 
 		// init items
 		ingot = new ItemIngot().setUnlocalizedName("MJ_ingot");
@@ -163,6 +169,9 @@ public class ModJam4 {
 		packetHandler = new MJPacketHandler<MJMessage>("ModJam4", new MJCodec(MessageTileElectrical.class, MessageTileCable.class));
 		packetHandler.setServerHandler(new MJPacketHandlerServer());
 
+		//register gui handler
+		NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
+		
 		// register rendering information
 		proxy.registerRenderingInformation();
 	}

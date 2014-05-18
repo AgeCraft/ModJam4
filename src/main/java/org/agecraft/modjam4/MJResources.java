@@ -1,14 +1,18 @@
 package org.agecraft.modjam4;
 
-import org.agecraft.modjam4.util.MJUtil;
-
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
+
+import org.agecraft.modjam4.util.MJUtil;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class MJResources {
+	
+	public static ResourceLocation guiSteamEngine = new ResourceLocation("modjam4", "textures/gui/steamEngine.png");
 
 	public static final String[] metals = new String[]{"copper", "nickel", "zinc"};
 	public static final String[] rodTypes = new String[]{"copper", "iron"};
