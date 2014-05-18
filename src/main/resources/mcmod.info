@@ -9,7 +9,7 @@
   "updateUrl": "",
   "authorList": ["ElConquistador", "RoryGee", "DJPrinceCap", "Meadowcottage"],
   "credits": "",
-  "logoFile": "",
+  "logoFile": "assets/modjam4/textures/logo.png",
   "screenshots": [],
   "dependencies": []
 }
