@@ -20,7 +20,7 @@ public class ContainerSteamEngine extends ContainerBasic {
 	
 	public ContainerSteamEngine(InventoryPlayer inventory, TileEntitySteamEngine tile) {
 		this.tile = tile;
-		addSlotToContainer(new Slot(tile, 0, 56, 53));
+		addSlotToContainer(new Slot(tile, 0, 80, 40));
 		addInventoryPlayer(inventory, 8, 84);
 	}
 

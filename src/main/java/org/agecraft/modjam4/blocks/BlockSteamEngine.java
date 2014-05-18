@@ -16,6 +16,11 @@ public class BlockSteamEngine extends BlockElectrical {
 	}
 	
 	@Override
+	public String getUnlocalizedName() {
+		return "tile.MJ_steamEngine.name";
+	}
+	
+	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		return new TileEntitySteamEngine();
 	}
@@ -28,7 +33,7 @@ public class BlockSteamEngine extends BlockElectrical {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(!world.isRemote) {
-			player.openGui(this, 0, world, x, y, z);
+			player.openGui(ModJam4.instance, 0, world, x, y, z);
 		}
 		return true;
 	}

@@ -11,6 +11,7 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 
+import org.agecraft.modjam4.blocks.BlockBattery;
 import org.agecraft.modjam4.blocks.BlockBlock;
 import org.agecraft.modjam4.blocks.BlockCable;
 import org.agecraft.modjam4.blocks.BlockOre;
@@ -27,11 +28,13 @@ import org.agecraft.modjam4.items.ItemRod;
 import org.agecraft.modjam4.items.ItemScrewdriver;
 import org.agecraft.modjam4.items.ItemShovel;
 import org.agecraft.modjam4.items.ItemSword;
+import org.agecraft.modjam4.tileentities.TileEntityBattery;
 import org.agecraft.modjam4.tileentities.TileEntityCable;
 import org.agecraft.modjam4.tileentities.TileEntityCable.MessageTileCable;
 import org.agecraft.modjam4.tileentities.TileEntityElectrical;
 import org.agecraft.modjam4.tileentities.TileEntityElectrical.MessageTileElectrical;
 import org.agecraft.modjam4.tileentities.TileEntityExtended;
+import org.agecraft.modjam4.tileentities.TileEntitySteamEngine;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -64,6 +67,7 @@ public class ModJam4 {
 	public static Block block;
 	public static Block cable;
 	public static Block steamEngine;
+	public static Block batteryBlock;
 
 	public static Item ingot;
 	public static Item rod;
@@ -98,12 +102,14 @@ public class ModJam4 {
 		block = new BlockBlock().setBlockName("MJ_block");
 		cable = new BlockCable().setBlockName("MJ_cable");
 		steamEngine = new BlockSteamEngine().setBlockName("MJ_steamEngine");
+		batteryBlock = new BlockBattery().setBlockName("MJ_battery");
 
 		// register blocks
 		GameRegistry.registerBlock(ore, ItemBlockMetadata.class, "MJ_ore");
 		GameRegistry.registerBlock(block, ItemBlockMetadata.class, "MJ_block");
 		GameRegistry.registerBlock(cable, ItemCable.class, "MJ_cable");
 		GameRegistry.registerBlock(steamEngine, ItemBlockName.class, "MJ_steamEngine");
+		GameRegistry.registerBlock(batteryBlock, ItemBlockName.class, "MJ_battery");
 
 		// init items
 		ingot = new ItemIngot().setUnlocalizedName("MJ_ingot");
@@ -137,6 +143,8 @@ public class ModJam4 {
 		GameRegistry.registerTileEntity(TileEntityExtended.class, "MJ_TileExteneded");
 		GameRegistry.registerTileEntity(TileEntityElectrical.class, "MJ_TileElectrical");
 		GameRegistry.registerTileEntity(TileEntityCable.class, "MJ_TileCable");
+		GameRegistry.registerTileEntity(TileEntitySteamEngine.class, "MJ_TileSteamEngine");
+		GameRegistry.registerTileEntity(TileEntityBattery.class, "MJ_TileBattery");
 
 		// set crafting materials
 		toolMaterialCopper.customCraftingMaterial = ingot;
