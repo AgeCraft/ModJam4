@@ -30,7 +30,6 @@ public class TileEntitySteamEngine extends TileEntityElectrical implements ISide
 					burnTime += currentItemBurnTime;
 					input.stackSize--;
 					addEnergy(ForgeDirection.UNKNOWN, 10.0D);
-					System.out.println("ADDED 10.0 ENERGY");
 					if(input.stackSize == 0) {
 						input = input.getItem().getContainerItem(input);
 					}

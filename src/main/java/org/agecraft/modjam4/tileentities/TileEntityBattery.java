@@ -10,7 +10,6 @@ public class TileEntityBattery extends TileEntityElectrical {
 	@Override
 	public void addEnergy(ForgeDirection direction, double energy) {
 		energyStored += energy;
-		System.out.println("RECEIVED " + energy + " ENERGY (" + energyStored + " / " + getMaxEnergy() + ")");
 	}
 	
 	@Override

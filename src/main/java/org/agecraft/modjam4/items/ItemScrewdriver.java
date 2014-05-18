@@ -45,7 +45,7 @@ public class ItemScrewdriver extends Item {
 			Block block = world.getBlock(x, y, z);
 			if(block != null) {
 				if(block instanceof BlockBattery) {
-					player.addChatComponentMessage(new ChatComponentText("Energy Stored: (" + ((TileEntityBattery) world.getTileEntity(x, y, z)).energyStored + " / " + ((TileEntityBattery) world.getTileEntity(x, y, z)).getMaxEnergy() + ")"));
+					player.addChatComponentMessage(new ChatComponentText("Energy: (" + ((TileEntityBattery) world.getTileEntity(x, y, z)).energyStored + " / " + ((TileEntityBattery) world.getTileEntity(x, y, z)).getMaxEnergy() + ")"));
 				} else if(block instanceof BlockElectrical) {
 					player.addChatComponentMessage(new ChatComponentText("Energy: (" + ((TileEntityElectrical) world.getTileEntity(x, y, z)).energyTotal + " / " + ((TileEntityElectrical) world.getTileEntity(x, y, z)).getMaxEnergy() + ")"));
 				}

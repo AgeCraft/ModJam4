@@ -74,6 +74,12 @@ public class BlockCable extends BlockElectrical {
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side) {
+		return true;
+	}
+	
+	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
 		TileEntityCable tile = (TileEntityCable) getTileEntity(blockAccess, x, y, z);
 		int size = tile.isInsulated ? 2 : 1;

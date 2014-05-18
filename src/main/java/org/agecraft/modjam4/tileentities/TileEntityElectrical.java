@@ -89,13 +89,12 @@ public class TileEntityElectrical extends TileEntityExtended {
 				for(int i = 0; i < energy.length; i++) {
 					if(energy[i] > 0) {
 						ForgeDirection direction = ForgeDirection.values()[i];
-						Vector3f blockedEdge = new Vector3f(xCoord + direction.offsetX, yCoord + direction.offsetY, zCoord + direction.offsetZ);
 						validEdges.clear();
 						double[] maxEnergy = new double[ForgeDirection.VALID_DIRECTIONS.length];
 						double maxEnergyTotal = 0.0D;
 					
 						for(Vector3f edge : edges) {
-							if(edge != blockedEdge) {
+							if(!(((int) edge.x) == xCoord + direction.offsetX && ((int) edge.y) == yCoord + direction.offsetY && ((int) edge.z) == zCoord + direction.offsetZ)) {
 								TileEntityElectrical tile = (TileEntityElectrical) worldObj.getTileEntity((int) edge.x, (int) edge.y, (int) edge.z);
 								ForgeDirection newDirection = getDirectionFromPosition(((int) edge.x) - xCoord, ((int) edge.y) - yCoord, ((int) edge.z) - zCoord);
 								maxEnergy[newDirection.ordinal()] = tile.getMaxEnergy(newDirection);
@@ -122,7 +121,7 @@ public class TileEntityElectrical extends TileEntityExtended {
 										maxEnergy[newDirection.ordinal()] = 0.0D;
 									} else {
 										energyPerEdge[newDirection.ordinal()] = energyDivided;
-										energyToDivide -= maxEnergy[newDirection.ordinal()];
+										energyToDivide -= energyDivided;
 										maxEnergy[newDirection.ordinal()] -= energyDivided;
 									}
 								}
@@ -149,7 +148,7 @@ public class TileEntityElectrical extends TileEntityExtended {
 		for(int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++) {
 			ForgeDirection direction = ForgeDirection.VALID_DIRECTIONS[i];
 			if(direction.offsetX == deltaX && direction.offsetY == deltaY && direction.offsetZ == deltaZ) {
-				return direction;
+				return ForgeDirection.values()[ForgeDirection.OPPOSITES[direction.ordinal()]];
 			}
 		}
 		return ForgeDirection.UNKNOWN;
