@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntitySteamEngine extends TileEntityElectrical implements ISidedInventory {
 
@@ -18,12 +19,8 @@ public class TileEntitySteamEngine extends TileEntityElectrical implements ISide
 	public int currentItemBurnTime;
 
 	@Override
-	public boolean canUpdate() {
-		return true;
-	}
-
-	@Override
 	public void updateEntity() {
+		super.updateEntity();
 		if(!worldObj.isRemote) {
 			if(burnTime > 0) {
 				burnTime--;
@@ -32,6 +29,8 @@ public class TileEntitySteamEngine extends TileEntityElectrical implements ISide
 					currentItemBurnTime = TileEntityFurnace.getItemBurnTime(input);
 					burnTime += currentItemBurnTime;
 					input.stackSize--;
+					addEnergy(ForgeDirection.UNKNOWN, 10.0D);
+					System.out.println("ADDED 10.0 ENERGY");
 					if(input.stackSize == 0) {
 						input = input.getItem().getContainerItem(input);
 					}
@@ -50,6 +49,11 @@ public class TileEntitySteamEngine extends TileEntityElectrical implements ISide
 			currentItemBurnTime = 200;
 		}
 		return burnTime * scale / currentItemBurnTime;
+	}
+		
+	@Override
+	public double getMaxEnergy() {
+		return 0.0D;
 	}
 
 	@Override
@@ -151,7 +155,9 @@ public class TileEntitySteamEngine extends TileEntityElectrical implements ISide
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		NBTTagCompound tag = new NBTTagCompound();
-		input.writeToNBT(tag);
+		if(input != null) {
+			input.writeToNBT(tag);
+		}
 		nbt.setTag("Input", tag);
 		nbt.setInteger("BurnTime", burnTime);
 		nbt.setInteger("CurrentBurnTime", currentItemBurnTime);

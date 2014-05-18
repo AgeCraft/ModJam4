@@ -9,7 +9,7 @@ import java.util.List;
 import org.agecraft.modjam4.util.Tuple;
 import org.lwjgl.util.vector.Vector3f;
 
-public class ElectricalNetwork implements Serializable, Iterable<Vector3f> {
+public class EnergyNetwork implements Serializable, Iterable<Vector3f> {
 
 	private static final long serialVersionUID = 1L;
 	

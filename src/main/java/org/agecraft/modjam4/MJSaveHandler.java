@@ -17,8 +17,8 @@ import net.minecraft.world.chunk.storage.AnvilChunkLoader;
 import net.minecraft.world.chunk.storage.IChunkLoader;
 import net.minecraft.world.storage.ISaveHandler;
 
-import org.agecraft.modjam4.network.ElectricalNetwork;
-import org.agecraft.modjam4.network.ElectricalNetworkRegistry;
+import org.agecraft.modjam4.network.EnergyNetwork;
+import org.agecraft.modjam4.network.EnergyNetworkRegistry;
 
 public class MJSaveHandler {
 
@@ -45,12 +45,12 @@ public class MJSaveHandler {
 	public void load(String fileName, File file, ObjectInputStream in) {
 		try {
 			if(fileName.equalsIgnoreCase("electrical_networks")) {
-				ElectricalNetworkRegistry.networks.clear();
-				ElectricalNetworkRegistry.networks = (HashMap<Long, ElectricalNetwork>) in.readObject();
-				if(ElectricalNetworkRegistry.networks == null) {
-					ElectricalNetworkRegistry.networks = new HashMap<Long, ElectricalNetwork>();
+				EnergyNetworkRegistry.networks.clear();
+				EnergyNetworkRegistry.networks = (HashMap<Long, EnergyNetwork>) in.readObject();
+				if(EnergyNetworkRegistry.networks == null) {
+					EnergyNetworkRegistry.networks = new HashMap<Long, EnergyNetwork>();
 				}
-				ModJam4.log.info("Loaded " + ElectricalNetworkRegistry.networks.size() + " electrical networks");
+				ModJam4.log.info("Loaded " + EnergyNetworkRegistry.networks.size() + " electrical networks");
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -61,10 +61,10 @@ public class MJSaveHandler {
 		try {
 			if(fileName.equalsIgnoreCase("electrical_networks")) {
 				if(isNewFile) {
-					ElectricalNetworkRegistry.networks.clear();
+					EnergyNetworkRegistry.networks.clear();
 				}
-				out.writeObject(ElectricalNetworkRegistry.networks);
-				ModJam4.log.info("Saved " + ElectricalNetworkRegistry.networks.size() + " electrical networks");
+				out.writeObject(EnergyNetworkRegistry.networks);
+				ModJam4.log.info("Saved " + EnergyNetworkRegistry.networks.size() + " electrical networks");
 			}
 		} catch(Exception e) {
 			e.printStackTrace();

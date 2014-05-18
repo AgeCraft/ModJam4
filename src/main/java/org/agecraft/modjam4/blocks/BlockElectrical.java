@@ -2,12 +2,16 @@ package org.agecraft.modjam4.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import org.agecraft.modjam4.network.ElectricalNetwork;
+import org.agecraft.modjam4.network.EnergyNetwork;
 import org.agecraft.modjam4.tileentities.TileEntityElectrical;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockElectrical extends BlockExtendedContainer {
 
@@ -86,7 +90,12 @@ public class BlockElectrical extends BlockExtendedContainer {
 		return world.getBlock(otherX, otherY, otherZ) instanceof BlockElectrical;
 	}
 	
-	public ElectricalNetwork getNetwork(World world, int x, int y, int z) {
+	public EnergyNetwork getNetwork(World world, int x, int y, int z) {
 		return ((TileEntityElectrical) getTileEntity(world, x, y, z)).getNetwork();
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister iconRegister) {
 	}
 }
