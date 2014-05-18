@@ -5,9 +5,7 @@ import net.minecraft.world.World;
 
 import org.agecraft.modjam4.inventory.GuiSteamEngine;
 import org.agecraft.modjam4.tileentities.TileEntitySteamEngine;
-import org.agecraft.modjam4.tileentities.renders.TileEntityRendererSteamEngine;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,7 +29,7 @@ public class MJClientProxy extends MJCommonProxy {
 		RenderingRegistry.registerBlockHandler(MJConfig.cableRenderID, blockRenderingHandler);
 		
 		//register tile entity renderers
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySteamEngine.class, new TileEntityRendererSteamEngine());
+		//ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySteamEngine.class, new TileEntityRendererSteamEngine());
 	}
 	
 	@Override
